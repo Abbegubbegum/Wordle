@@ -1,0 +1,3 @@
+﻿
+Game.Initialize();
+Game.Run();
