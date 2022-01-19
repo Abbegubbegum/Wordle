@@ -9,6 +9,8 @@ public static class Game
 
     public static List<BoxRow> rows = new List<BoxRow>();
 
+    public static string unguessedLetters = "abcdefghijklmnopqrstuvwxyz";
+
     public static int currentRow = 0;
 
     public static void Initialize()
@@ -42,6 +44,10 @@ public static class Game
                     currentRow++;
                 }
             }
+            else if (Raylib.IsKeyPressed(KeyboardKey.KEY_TAB))
+            {
+                OnFail();
+            }
 
 
             //RENDER
@@ -51,6 +57,8 @@ public static class Game
             {
                 row.Draw();
             }
+
+            Raylib.DrawTextRec(Raylib.GetFontDefault(), unguessedLetters, new Rectangle(100, 50 + 7 * (Box.scl + Box.margin * 2), 4 * (Box.scl + Box.margin) + Box.scl, Box.scl * 2), 40, 10, true, Color.BLACK);
 
             Raylib.EndDrawing();
         }
@@ -73,6 +81,7 @@ public static class Game
         WordHandler.FetchNewWord();
         KeyboardTextManager.ResetText();
         currentRow = 0;
+        unguessedLetters = "abcdefghijklmnopqrstuvwxyz";
         foreach (var row in rows)
         {
             row.Reset();

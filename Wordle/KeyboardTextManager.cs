@@ -13,7 +13,7 @@ public static class KeyboardTextManager
         {
             currentUnicodeKey = Raylib.GetKeyPressed();
 
-            if (currentUnicodeKey != 0 && currentUnicodeKey != 259 && currentUnicodeKey != 257 && Text.Length < Game.WORD_LENGTH)
+            if (currentUnicodeKey != 0 && currentUnicodeKey != 257 && currentUnicodeKey != 258 && currentUnicodeKey != 259 && Text.Length < Game.WORD_LENGTH)
             {
                 // Console.WriteLine(currentUnicodeKey);
                 currentKey = Convert.ToChar(currentUnicodeKey);

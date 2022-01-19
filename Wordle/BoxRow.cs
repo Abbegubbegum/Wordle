@@ -63,8 +63,11 @@ public class BoxRow
         }
 
 
+
         for (int i = 0; i < row.Length; i++)
         {
+            Game.unguessedLetters = Game.unguessedLetters.Replace(row[i].character, "");
+
             if (row[i].character == WordHandler.CurrentWord[i].ToString())
             {
                 row[i].c = Color.GREEN;
