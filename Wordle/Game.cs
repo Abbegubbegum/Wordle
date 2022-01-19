@@ -3,11 +3,25 @@ public static class Game
 {
     public const int WIDTH = 600;
     public const int HEIGHT = 800;
+    public const int WORD_LENGTH = 5;
+
+    public static Font font = Raylib.GetFontDefault();
+
+    public static List<BoxRow> rows = new List<BoxRow>();
+
+    public static int currentRow = 0;
 
     public static void Initialize()
     {
-        Raylib.InitWindow(WIDTH, HEIGHT, "Worlde");
-        Wordpicker.Initialize();
+        Raylib.InitWindow(WIDTH, HEIGHT, "Wordle");
+        WordHandler.Initialize();
+        KeyboardTextManager.StartListening();
+
+        for (int i = 0; i < 7; i++)
+        {
+            rows.Add(new BoxRow(100, 50 + i * (Box.scl + Box.margin * 2)));
+        }
+
     }
 
     public static void Run()
@@ -15,10 +29,53 @@ public static class Game
         while (!Raylib.WindowShouldClose())
         {
             //LOGIC
+            if (currentRow >= rows.Count)
+                OnFail();
+            KeyboardTextManager.Update();
+            rows[currentRow].Update();
+
+            if (Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER))
+            {
+                if (rows[currentRow].ValidateWord())
+                {
+                    KeyboardTextManager.ResetText();
+                    currentRow++;
+                }
+            }
 
 
+            //RENDER
+            Raylib.BeginDrawing();
+            Raylib.ClearBackground(Color.WHITE);
+            foreach (var row in rows)
+            {
+                row.Draw();
+            }
 
-            Renderer.RenderFrame();
+            Raylib.EndDrawing();
+        }
+    }
+
+    private static void OnFail()
+    {
+        Console.WriteLine($"FAIL! The word was {WordHandler.CurrentWord}");
+        Reset();
+    }
+
+    public static void OnCorrectGuess()
+    {
+        Console.WriteLine($"Correct Guess! The word was {WordHandler.CurrentWord}");
+        Reset();
+    }
+
+    private static void Reset()
+    {
+        WordHandler.FetchNewWord();
+        KeyboardTextManager.ResetText();
+        currentRow = 0;
+        foreach (var row in rows)
+        {
+            row.Reset();
         }
     }
 }
