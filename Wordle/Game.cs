@@ -16,13 +16,14 @@ public static class Game
     public static void Initialize()
     {
         Raylib.InitWindow(WIDTH, HEIGHT, "Wordle");
-        WordHandler.Initialize();
+        WordHandler.FetchNewWord();
         KeyboardTextManager.StartListening();
 
         for (int i = 0; i < 7; i++)
         {
             rows.Add(new BoxRow(100, 50 + i * (Box.scl + Box.margin * 2)));
         }
+
 
     }
 
