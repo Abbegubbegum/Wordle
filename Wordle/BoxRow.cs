@@ -4,11 +4,13 @@ public class BoxRow
     public Box[] row = new Box[Game.WORD_LENGTH];
     public bool currentRow = false;
 
-    public BoxRow(int x, int y)
+    public BoxRow(int y)
     {
+        int rowLength = Game.WORD_LENGTH * Box.scl + (Game.WORD_LENGTH - 1) * Box.margin;
+
         for (int i = 0; i < Game.WORD_LENGTH; i++)
         {
-            row[i] = new Box(x + i * (Box.scl + Box.margin), y);
+            row[i] = new Box(Game.WIDTH / 2 - rowLength / 2 + i * (Box.scl + Box.margin), y);
         }
     }
 
@@ -24,7 +26,6 @@ public class BoxRow
         {
             row[i].character = KeyboardTextManager.Text[i].ToString();
         }
-
     }
 
     public void Draw()
@@ -37,7 +38,7 @@ public class BoxRow
 
     public bool ValidateWord()
     {
-        string inputWord = string.Empty;
+        string inputWord = "";
 
         foreach (var box in row)
         {

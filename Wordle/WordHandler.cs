@@ -3,7 +3,7 @@ public static class WordHandler
 {
     private const string path = @"dictionary.txt";
     public static List<string> wordlist;
-    private static Random r = new Random();
+    private static Random r = new();
 
     public static string CurrentWord { get; private set; } = "";
 
@@ -26,10 +26,19 @@ public static class WordHandler
 
     public static void FetchNewWord()
     {
-        wordlist.Remove(CurrentWord);
-        CurrentWord = string.Empty;
-        while (CurrentWord.Length != 5)
+        if (wordlist.Count == 0)
         {
+            Console.WriteLine("Word List is empty");
+            Raylib.CloseWindow();
+            return;
+        }
+
+        wordlist.Remove(CurrentWord);
+        CurrentWord = wordlist[r.Next(wordlist.Count)];
+
+        while (CurrentWord.Length != Game.WORD_LENGTH)
+        {
+            wordlist.Remove(CurrentWord);
             CurrentWord = wordlist[r.Next(wordlist.Count)];
         }
     }

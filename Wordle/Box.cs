@@ -6,7 +6,7 @@ public class Box
     public Rectangle rec = new Rectangle(0, 0, 70, 70);
     public Color c = Color.BLANK;
 
-    public string character = string.Empty;
+    public string character = "";
     private const int textMarginX = 20;
     private const int textMarginY = 15;
 

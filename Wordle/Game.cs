@@ -3,7 +3,7 @@ public static class Game
 {
     public const int WIDTH = 600;
     public const int HEIGHT = 800;
-    public const int WORD_LENGTH = 5;
+    public static int WORD_LENGTH = 5;
 
     public static Font font = Raylib.GetFontDefault();
 
@@ -13,15 +13,26 @@ public static class Game
 
     public static int currentRow = 0;
 
+    private static string playerInput = "";
+
     public static void Initialize()
     {
+        Console.WriteLine("Word Count?");
+        playerInput = Console.ReadLine();
+
+        while (!int.TryParse(playerInput, out WORD_LENGTH) || WORD_LENGTH <= 2)
+        {
+            Console.WriteLine("Invalid Input, try again");
+            playerInput = Console.ReadLine();
+        }
+
         Raylib.InitWindow(WIDTH, HEIGHT, "Wordle");
         WordHandler.FetchNewWord();
         KeyboardTextManager.StartListening();
 
         for (int i = 0; i < 7; i++)
         {
-            rows.Add(new BoxRow(100, 50 + i * (Box.scl + Box.margin * 2)));
+            rows.Add(new BoxRow(50 + i * (Box.scl + Box.margin * 2)));
         }
 
 
